@@ -4,7 +4,8 @@ import '../styles/card.css'
 
 function Cards() {
 
-    let monsterArray = [];
+    const monsterArray = [];
+    const clickedCards = [];
 
     window.onload = async () => {
         let monsterNames = ['adult-bronze-dragon', 'air-elemental', 'animated-armor', 'basilisk', 'bandit', 'bugbear', 'centaur', 'dire-wolf', 'djinni', 'drow', 'ghost', 'roc']
@@ -44,6 +45,16 @@ function Cards() {
         return array;
     }
 
+    const gameplay = () => {
+        if (clickedCards.includes(`${this.value}`)) {
+            alert('You lose');
+        } else {
+            //score + 1
+            clickedCards.push(`${this.value}`);
+            console.log(clickedCards);
+        }
+    }
+
     const showArray = () => {
         console.log(monsterArray);
     }
@@ -55,6 +66,8 @@ function Cards() {
             const card = document.createElement('div');
             const cardImg = document.createElement('img');
             const cardText = document.createElement('h4');
+            card.addEventListener('click', gameplay);
+            card.setAttribute('value', `${item.name}`)
             cardImg.setAttribute('class', 'cardImg');
             cardImg.setAttribute('src', `${item.image}`);
             cardText.setAttribute('class', 'cardText');
