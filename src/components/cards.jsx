@@ -3,7 +3,25 @@ import {React} from 'react'
 import '../styles/card.css'
 
 function Cards() {
+
+    let monsterArray = [];
+
+    window.onload = async () => {
+        let monsterNames = ['adult-bronze-dragon', 'air-elemental', 'animated-armor', 'basilisk', 'bandit', 'bugbear', 'centaur', 'dire-wolf', 'djinni', 'drow', 'ghost', 'roc']
+        
+            for (let monsterName of monsterNames) {
+                let monster = await getData(monsterName);
+                let monsterObj = {
+                    name: monster.name,
+                    image: `https://www.dnd5eapi.co${monster.image}` 
+                }
+                monsterArray.push(monsterObj)
+            }             
+            shuffleArray(monsterArray);
+            renderCards(monsterArray);
+        }
     
+
     const getData = async (character) => {
         let url = `https://www.dnd5eapi.co/api/2014/monsters/${character}`;
         try {
@@ -26,6 +44,11 @@ function Cards() {
         return array;
     }
 
+    const showArray = () => {
+        console.log(monsterArray);
+    }
+    
+
     const renderCards = async (array) => {
         const cardCtr = document.querySelector('#cardCtr')
         for (let item of array) {
@@ -42,26 +65,13 @@ function Cards() {
         }
     }
 
-    const buildArray = async () => {
-        let monsterNames = ['adult-bronze-dragon', 'air-elemental', 'animated-armor', 'basilisk', 'bandit', 'bugbear', 'centaur', 'dire-wolf', 'djinni', 'drow', 'ghost', 'roc']
-        let monsterArray = [];
-        for (let monsterName of monsterNames) {
-            let monster = await getData(monsterName);
-            let monsterObj = {
-                name: monster.name,
-                image: `https://www.dnd5eapi.co${monster.image}` 
-            }
-            monsterArray.push(monsterObj)
-        }             
-        shuffleArray(monsterArray);
-        renderCards(monsterArray);
-    }
+        
 
     return (
         <div id='cardCtr'>
-            <img />
-            <h4 onClick={buildArray}>name</h4>
+            <button onClick={showArray}>Show</button>
         </div>
+        
     );
 }
 export default Cards;

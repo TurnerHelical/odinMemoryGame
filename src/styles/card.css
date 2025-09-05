@@ -1,0 +1,8 @@
+.cardImg {
+    max-width: 300px;
+}
+
+#cardCtr {
+    display: flex;
+    flex-wrap: wrap;
+}
