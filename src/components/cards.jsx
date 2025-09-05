@@ -1,90 +1,94 @@
-import {React} from 'react'
-
+//build a component to place 12 cards on the page
+//fetch the data needed from the DnD api
+//from that data take only the needed fields and create an array of objects containing the reduced data
+//shuffle the array so it is in a random order
+//from the new array render the data on the screen in order
+//when clicked, if the image has not been clicked this round, increase score by one and shuffle and render the cards again
+//if the image has already been clicked end game 
+//if score at end of game is higher than the previous highscore, update the highscore
+import React, { useEffect, useState } from "react";
 import '../styles/card.css'
 
-function Cards() {
+export default function Cards({ score, setScore, highScore, setHighScore }) {
 
-    const monsterArray = [];
-    const clickedCards = [];
+  const [monsterArray, setMonsterArray] = useState([]);
+  const [error, setError] = useState("");
+  const [clicked, setClicked] = useState([])
 
-    window.onload = async () => {
-        let monsterNames = ['adult-bronze-dragon', 'air-elemental', 'animated-armor', 'basilisk', 'bandit', 'bugbear', 'centaur', 'dire-wolf', 'djinni', 'drow', 'ghost', 'roc']
-        
-            for (let monsterName of monsterNames) {
-                let monster = await getData(monsterName);
-                let monsterObj = {
-                    name: monster.name,
-                    image: `https://www.dnd5eapi.co${monster.image}` 
-                }
-                monsterArray.push(monsterObj)
-            }             
-            shuffleArray(monsterArray);
-            renderCards(monsterArray);
-        }
-    
+  useEffect(() => {
+    const monsterNames = [
+      "adult-bronze-dragon","air-elemental","animated-armor","basilisk","bandit",
+      "bugbear","centaur","dire-wolf","djinni","drow","ghost","roc"
+    ];
 
-    const getData = async (character) => {
-        let url = `https://www.dnd5eapi.co/api/2014/monsters/${character}`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const result = await response.json();
-            return result
-        } catch (error) {
-            console.error(error.message);
-        }
-    };
+    (async () => {
+      try {
+        const results = await Promise.all(
+          monsterNames.map(async (name) => {
+            const m = await getData(name);
+            if (!m) return null;
+            return {
+              name: m.name,
+              image: m.image ? `https://www.dnd5eapi.co${m.image}` : null,
+            };
+          })
+        );
+        const shuffledArray = shuffleArray(results)
+        setMonsterArray(shuffledArray);
+      } catch (e) {
+        setError(String(e.message || e));
+      }
+    })();
+  }, []);
 
-    const shuffleArray = (array) => {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]
-        }
-        return array;
+  const getData = async (name) => {
+    const res = await fetch(`https://www.dnd5eapi.co/api/2014/monsters/${name}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  }
+
+  const shuffleArray = (array) => {
+    const a = array.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
     }
+    return a;
+  }
+  
+  if (error) return <div>Error: {error}</div>;
+  if (!monsterArray.length) return <div>Loading…</div>;
 
-    const gameplay = () => {
-        if (clickedCards.includes(`${this.value}`)) {
-            alert('You lose');
-        } else {
-            //score + 1
-            clickedCards.push(`${this.value}`);
-            console.log(clickedCards);
+  const handleClick = (name) => {
+    if (clicked.includes(name)) {
+        if (score > highScore) {
+            setHighScore(score);
         }
+        alert('you lose');
+        resetGame();
+        return;
+
     }
+    setScore((score + 1));
+    setClicked((prev) => [...prev,name]);
+    setMonsterArray((prev) => shuffleArray(prev))
 
-    const showArray = () => {
-        console.log(monsterArray);
-    }
-    
+  }
 
-    const renderCards = async (array) => {
-        const cardCtr = document.querySelector('#cardCtr')
-        for (let item of array) {
-            const card = document.createElement('div');
-            const cardImg = document.createElement('img');
-            const cardText = document.createElement('h4');
-            card.addEventListener('click', gameplay);
-            card.setAttribute('value', `${item.name}`)
-            cardImg.setAttribute('class', 'cardImg');
-            cardImg.setAttribute('src', `${item.image}`);
-            cardText.setAttribute('class', 'cardText');
-            cardText.innerHTML = `${item.name}`;
-            card.appendChild(cardImg);
-            card.appendChild(cardText)
-            cardCtr.appendChild(card);
-        }
-    }
-
-        
-
-    return (
-        <div id='cardCtr'>
-            <button onClick={showArray}>Show</button>
+  const resetGame = () => {
+    setClicked([]);
+    setScore(0);
+    setMonsterArray((prev) => shuffleArray(prev));
+  }
+  
+  return (
+    <div id="cardCtr">
+      {monsterArray.map((m) => (
+        <div key={m.name} className="card" onClick={() => handleClick(m.name)}>
+          {m.image && <img className="cardImg" src={m.image} alt={m.name} />}
+          <h4 className="cardText">{m.name}</h4>
         </div>
-        
-    );
+      ))}
+    </div>
+  );
 }
-export default Cards;
