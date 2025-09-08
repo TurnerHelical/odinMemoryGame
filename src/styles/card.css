@@ -44,7 +44,7 @@
     }
 }
 
-@media (960px > width > 480px) {
+@media (960px >= width > 480px) {
     .card {
         flex-basis: 45%;
     }

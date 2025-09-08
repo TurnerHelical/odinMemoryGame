@@ -3,4 +3,18 @@ main p {
     font-family: 'Macondo Swash Caps';
     font-size: 32px;
     margin-bottom: 20px;
+    padding: 0 10px;
 }
+
+@media (960px >= width > 480px) {
+    main p {
+        font-size: 24px;
+    }
+}
+
+@media (600px >= width) {
+    main p {
+        font-size: 16px;
+    }
+}
+
