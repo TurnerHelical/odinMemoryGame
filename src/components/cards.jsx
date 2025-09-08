@@ -1,11 +1,3 @@
-//build a component to place 12 cards on the page
-//fetch the data needed from the DnD api
-//from that data take only the needed fields and create an array of objects containing the reduced data
-//shuffle the array so it is in a random order
-//from the new array render the data on the screen in order
-//when clicked, if the image has not been clicked this round, increase score by one and shuffle and render the cards again
-//if the image has already been clicked end game 
-//if score at end of game is higher than the previous highscore, update the highscore
 import React, { useEffect, useState } from "react";
 import '../styles/card.css'
 
@@ -64,7 +56,7 @@ export default function Cards({ score, setScore, highScore, setHighScore }) {
         if (score > highScore) {
             setHighScore(score);
         }
-        alert('you lose');
+        alert('Game Over!');
         resetGame();
         return;
 

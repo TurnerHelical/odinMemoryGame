@@ -1,8 +1,31 @@
 .cardImg {
-    max-width: 300px;
+    width: auto;
+    border-radius: 10px;
+}
+
+.card {
+    border: 1px black solid;
+    padding: 15px;
+    border-radius: 10px;
+    flex-basis: 15%;
+    background-color: bisque;
+    transition: transform .5s ease;
+}
+
+.card:hover {
+    transform: translateY(-40px);
+}
+
+.cardText {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 #cardCtr {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    
 }
