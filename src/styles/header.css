@@ -2,8 +2,29 @@
    text-align: center; 
 }
 
+#titleCtr h1 {
+    font-size: 70px;
+    font-family: 'Macondo Swash Caps';
+}
+
 #pointsCtr {
     text-align: center;
+}
+
+#pointsCtr  h3{
+    font-size:32px;
+    font-family: 'Macondo Swash Caps';
+}
+
+#pointsCtr p {
+    font-size: 20px;
+    font-family: 'Macondo Swash Caps';
+}
+
+header {
+    background-color: rgb(164, 230, 208);
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,100%);
 }
 
 

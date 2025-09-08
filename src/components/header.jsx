@@ -7,8 +7,8 @@ function Header({score, highScore}) {
         </div>
         <div id="pointsCtr">
             <h3>Points</h3>
-            <p>Score:{score}</p>
-            <p>Best Score:{highScore}</p>
+            <p>Score: {score}</p>
+            <p>Best Score: {highScore}</p>
         </div>
         </>;
 }
