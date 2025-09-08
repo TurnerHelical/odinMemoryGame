@@ -52,7 +52,7 @@ export default function Cards({ score, setScore, highScore, setHighScore }) {
   if (!monsterArray.length) return <div>Loading…</div>;
 
   const handleClick = (name) => {
-    if (clicked.includes(name)) {
+     if (clicked.includes(name)) {
         if (score > highScore) {
             setHighScore(score);
         }
@@ -61,9 +61,9 @@ export default function Cards({ score, setScore, highScore, setHighScore }) {
         return;
 
     }
-    setScore((score + 1));
+    setScore((s) => s + 1);
     setClicked((prev) => [...prev,name]);
-    setMonsterArray((prev) => shuffleArray(prev))
+    setTimeout(() => {setMonsterArray((prev) => shuffleArray(prev))}, 250);
 
   }
 

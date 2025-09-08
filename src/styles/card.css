@@ -13,13 +13,18 @@
 }
 
 .card:hover {
-    transform: translateY(-40px);
+    transform: translateY(-60px) scale(1.2);
+}
+
+.card:active {
+    transform: skewX(30deg);
 }
 
 .cardText {
     text-align: center;
-    font-size: 20px;
+    font-size: 30px;
     margin-top: 10px;
+    font-family:'Macondo Swash Caps';
 }
 
 #cardCtr {
