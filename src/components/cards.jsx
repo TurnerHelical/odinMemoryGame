@@ -56,7 +56,7 @@ export default function Cards({ score, setScore, highScore, setHighScore }) {
         if (score > highScore) {
             setHighScore(score);
         }
-        alert('Game Over!');
+        alert(`Game Over!\nScore: ${score}\nHighScore: ${highScore}`);
         resetGame();
         return;
 

@@ -37,3 +37,24 @@
     gap: 20px;
     margin-bottom: 50px;
 }
+
+@media (1400px > width > 960px  ) {
+    .card {
+        flex-basis: 25%;
+    }
+}
+
+@media (960px > width > 480px) {
+    .card {
+        flex-basis: 45%;
+    }
+}
+
+@media (480px > width > 319px) {
+    .card {
+        flex-basis: 100%;
+    }
+    #cardCtr {
+        padding: 0 15px;
+    }
+}
